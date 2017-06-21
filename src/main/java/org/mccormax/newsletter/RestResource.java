@@ -41,7 +41,7 @@ public class RestResource {
       response.setStatus(HttpServletResponse.SC_CREATED);
    }
 
-   @RequestMapping(method = RequestMethod.GET, value = "/categories")
+   @RequestMapping(method = RequestMethod.GET, value = "/categories", produces = "application/json")
    public Iterable<Category> getCategories(HttpServletResponse response) {
       response.setStatus(HttpServletResponse.SC_OK);
       return categoryRepository.findAll();
@@ -57,7 +57,7 @@ public class RestResource {
       response.setStatus(HttpServletResponse.SC_CREATED);
    }
 
-   @RequestMapping(method = RequestMethod.GET, value = "/books")
+   @RequestMapping(method = RequestMethod.GET, value = "/books", produces = "application/json")
    public Iterable<BookMeta> getBooks(HttpServletResponse response) {
       response.setStatus(HttpServletResponse.SC_OK);
       Iterable<BookMeta> result = bookRepository.getBookMeta();
@@ -74,15 +74,15 @@ public class RestResource {
       response.setStatus(HttpServletResponse.SC_CREATED);
    }
 
-   @RequestMapping(method = RequestMethod.GET, value = "/subscribers")
+   @RequestMapping(method = RequestMethod.GET, value = "/subscribers", produces = "application/json")
    public Iterable<Subscriber> getSubscribers(HttpServletResponse response) {
       response.setStatus(HttpServletResponse.SC_OK);
       return subscriberRepository.findAll();
    }
 
-   @RequestMapping(method = RequestMethod.GET, value = "/newsletters")
+   @RequestMapping(method = RequestMethod.GET, value = "/newsletters", produces = "application/json")
    public String newsletters() {
-      return "HERE YA GO!";
+      return "[ ]";
    }
 
 }
