@@ -16,7 +16,7 @@ public class Category {
    @GraphId
    Long id;
 
-   @Index(unique=true) String code;
+   @Index(unique=true, primary=true) String code;
 
    String title;
 

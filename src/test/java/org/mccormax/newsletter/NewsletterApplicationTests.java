@@ -11,6 +11,7 @@ import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,6 @@ public class NewsletterApplicationTests {
 				.build();
 	}
 
-	@Before
 	public void addCategories() {
 		createResource("/categories",
 				TestCategory.create("science", "Science", null));
@@ -77,6 +77,7 @@ public class NewsletterApplicationTests {
 	public void contextLoads() {
 	}
 
+	@Ignore
 	@Test
 	public void createSubscriberAndCheckResponseStatus(){
 		TestSubscriber subscriber = new TestSubscriber();
@@ -85,6 +86,7 @@ public class NewsletterApplicationTests {
 		createResource("/subscribers", subscriber);
 	}
 
+	@Ignore
 	@Test
 	public void createBookAndCheckResponseStatus(){
 		TestBook book = new TestBook();
@@ -95,6 +97,7 @@ public class NewsletterApplicationTests {
 
 	@Test
 	public void getNewsletterAndCheckResponseStatus() {
+		addCategories();
 		addBooks();
 		addSubscribers();
 		getNewsletters();
@@ -215,7 +218,7 @@ public class NewsletterApplicationTests {
 	}
 
 	private static class TestNotification {
-		public String title;
+		public String book;
 		public List<List<String>> categoryPaths;
 	}
 }

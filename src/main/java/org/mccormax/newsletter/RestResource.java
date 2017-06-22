@@ -7,7 +7,7 @@ package org.mccormax.newsletter;
  import org.springframework.web.bind.annotation.RestController;
 
  import javax.servlet.http.HttpServletResponse;
- import java.util.List;
+ import java.util.*;
 
 /**
  * REST API resource for newsletter service
@@ -37,6 +37,13 @@ public class RestResource {
          // FIXME:  what if null
          category.hasParent(parentCategory);
       }
+      // there is a uniqueness constraint on category code which prevents
+      // duplicates, however an exception is not thrown
+      if (categoryRepository.findByCode(category.getCode()) != null) {
+         response.setStatus(HttpServletResponse.SC_CONFLICT);
+         return;
+      }
+
       categoryRepository.save(category);
       response.setStatus(HttpServletResponse.SC_CREATED);
    }
@@ -52,6 +59,7 @@ public class RestResource {
       List<Category> categories = categoryRepository.findByCodeIn(book.getCategoryCodes());
       // fixme:  no check here
       book.filesUnder(categories);
+
       bookRepository.save(book);
 
       response.setStatus(HttpServletResponse.SC_CREATED);
@@ -69,6 +77,14 @@ public class RestResource {
       List<Category> categories = categoryRepository.findByCodeIn(subscriber.getCategoryCodes());
       // fixme:  no check here
       subscriber.subscribesTo(categories);
+
+      // there is a uniqueness constraint on email which prevents
+      // duplicates, however an exception is not thrown
+      if (subscriberRepository.findByEmail(subscriber.getEmail()) != null) {
+         response.setStatus(HttpServletResponse.SC_CONFLICT);
+         return;
+      }
+
       subscriberRepository.save(subscriber);
 
       response.setStatus(HttpServletResponse.SC_CREATED);
@@ -81,8 +97,35 @@ public class RestResource {
    }
 
    @RequestMapping(method = RequestMethod.GET, value = "/newsletters", produces = "application/json")
-   public String newsletters() {
-      return "[ ]";
+   public List<RecipientNotifications> newsletters() {
+
+      // get the meta data for all the books.  since this data will be repeated over and over
+      // for different subscribers, it is retrieved just once and mapped.
+      Collection<BookMeta> books = bookRepository.getBookMeta();
+
+      // map each book meta by the book id
+      Map<Long, BookCategories> bookLookup = new HashMap<>();
+      for (BookMeta book : books) {
+         bookLookup.put(book.getId(), new BookCategories(book.getBook(), book.getCategoryPaths()));
+      }
+
+      // get the books related to each subscriber
+      // Collection<SubscriberBooks> subscriber = bookRepository.getBookMeta();
+      Collection<SubscriberBooks> subscribers = subscriberRepository.getSubscriberBooks();
+
+      // generate the result list from the 'static' book list and the subscriptions
+      List<RecipientNotifications> notifications = new ArrayList<>();
+      for (SubscriberBooks subscriber : subscribers) {
+         System.out.println("sb: "+subscriber);
+
+         RecipientNotifications notification = new RecipientNotifications(subscriber.getEmail());
+         for (Long bookId : subscriber.getBooks()) {
+            notification.addNotification(bookLookup.get(bookId));
+         }
+         notifications.add(notification);
+      }
+
+      return notifications;
    }
 
 }

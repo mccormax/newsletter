@@ -1,6 +1,7 @@
 package org.mccormax.newsletter;
 
 import org.neo4j.ogm.annotation.GraphId;
+import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
@@ -15,7 +16,7 @@ public class Subscriber {
 
       @GraphId Long id;
 
-      private String email;
+      @Index(unique=true, primary=true) private String email;
 
       @Relationship(type = "SUBSCRIBES_TO")
       Collection<Category> categories;
