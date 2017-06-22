@@ -1,4 +1,4 @@
-package org.mccormax.newsletter;
+package org.mccormax.newsletter.domain;
 
 import org.springframework.data.neo4j.annotation.QueryResult;
 
