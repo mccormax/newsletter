@@ -18,10 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+import static org.springframework.util.StringUtils.isEmpty;
+
 /**
  * REST API resource for newsletter service
- *
- * TODO:  proper error handling and messages (currently just status codes).
+ * <p>
+ * TODO:  proper validation and messages (currently just returns status codes).
+ * TODO:  make it impossible to file a book under a category and an ancestor.
  *
  * @author Max McCormick
  */
@@ -44,6 +47,10 @@ public class NewsletterController {
    @RequestMapping(method = RequestMethod.POST, value = "/categories")
    public void addCategory(HttpServletResponse response, @RequestBody Category category) {
 
+      if (isEmpty(category.getCode()) || isEmpty(category.getTitle())) {
+         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+         return;
+      }
       if (category.getSuperCategoryCode() != null) {
          Category parentCategory = categoryRepository.findByCode(category.getSuperCategoryCode());
          if (parentCategory == null) {
@@ -65,6 +72,12 @@ public class NewsletterController {
 
    @RequestMapping(method = RequestMethod.POST, value = "/books")
    public void addBook(HttpServletResponse response, @RequestBody Book book) {
+
+      if (isEmpty(book.getTitle()) || isEmpty(book.getCategoryCodes())) {
+         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+         return;
+      }
+
       List<Category> categories = categoryRepository.findByCodeIn(book.getCategoryCodes());
 
       // ensure that the specified category codes exist
@@ -83,6 +96,12 @@ public class NewsletterController {
 
    @RequestMapping(method = RequestMethod.POST, value = "/subscribers")
    public void addSubscriber(HttpServletResponse response, @RequestBody Subscriber subscriber) {
+
+      if (isEmpty(subscriber.getEmail()) || isEmpty(subscriber.getCategoryCodes())) {
+         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+         return;
+      }
+
       List<Category> categories = categoryRepository.findByCodeIn(subscriber.getCategoryCodes());
 
       // ensure that the specified category codes exist

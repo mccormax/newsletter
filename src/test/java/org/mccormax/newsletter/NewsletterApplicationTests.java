@@ -26,19 +26,17 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Newsletter application test
  *
  * TODO:  unit testing (strictly speaking this is integation testing).
- * TODO:  more testing of "edge cases", eg. bad input data
+ * TODO:  add tests for "edge cases", eg. bad input data
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class NewsletterApplicationTests {
 
-   @Autowired
-   private TestRestTemplate restTemplate;
-
+   private static RequestSpecification spec;
    @LocalServerPort
    int port;
-
-   private static RequestSpecification spec;
+   @Autowired
+   private TestRestTemplate restTemplate;
 
    @BeforeClass
    public static void initSpec() {
@@ -278,14 +276,12 @@ public class NewsletterApplicationTests {
 
       @Override
       public boolean equals(Object o) {
-         System.out.println("Comparing " + this + " to " + o + ": " + this.hashCode() + "," + o.hashCode());
          if (this == o) return true;
          if (o == null || getClass() != o.getClass()) return false;
 
          TestNotification that = (TestNotification) o;
 
          if (!book.equals(that.book)) {
-            System.out.println("Wrong book");
             return false;
          }
 
