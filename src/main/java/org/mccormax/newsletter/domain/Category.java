@@ -1,28 +1,23 @@
-package org.mccormax.newsletter;
+package org.mccormax.newsletter.domain;
 
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
-import org.springframework.data.neo4j.annotation.*;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
+/**
+ * @author Max McCormick
+ */
 @NodeEntity
 public class Category {
 
-   @GraphId
-   Long id;
-
-   @Index(unique=true, primary=true) String code;
-
-   String title;
-
    @Relationship(type = "HAS_PARENT", direction = Relationship.OUTGOING)
    public Category parentCategory;
-
+   @GraphId
+   Long id;
+   @Index(unique=true, primary=true) String code;
+   String title;
    private transient String superCategoryCode;
 
    public Category() { }
@@ -39,11 +34,12 @@ public class Category {
       this.parentCategory = parentCategory;
    }
 
-   public void setSuperCategoryCode(String superCategoryCode) {
-      this.superCategoryCode = superCategoryCode;
-   }
    public String getSuperCategoryCode() {
       return superCategoryCode;
+   }
+
+   public void setSuperCategoryCode(String superCategoryCode) {
+      this.superCategoryCode = superCategoryCode;
    }
 
 }

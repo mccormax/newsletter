@@ -1,4 +1,4 @@
-package org.mccormax.newsletter;
+package org.mccormax.newsletter.domain;
 
 
 import org.neo4j.ogm.annotation.GraphId;
@@ -16,10 +16,14 @@ public class Book {
 
    @GraphId Long id;
 
-   private String title;
+   String title;
 
    @Relationship(type = "FILES_UNDER")
    Collection<Category> categories;
+   private transient List<String> categoryCodes;
+
+   public Book() {
+   }
 
    public List<String> getCategoryCodes() {
       return categoryCodes;
@@ -28,10 +32,6 @@ public class Book {
    public void setCategoryCodes(List<String> categoryCodes) {
       this.categoryCodes = categoryCodes;
    }
-
-   private transient List<String> categoryCodes;
-
-   public Book() { }
 
    public String getTitle() {
       return title;

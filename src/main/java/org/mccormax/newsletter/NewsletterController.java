@@ -1,5 +1,12 @@
 package org.mccormax.newsletter;
 
+import org.mccormax.newsletter.domain.Book;
+import org.mccormax.newsletter.domain.Category;
+import org.mccormax.newsletter.domain.RecipientNotifications;
+import org.mccormax.newsletter.domain.Subscriber;
+import org.mccormax.newsletter.repository.BookRepository;
+import org.mccormax.newsletter.repository.CategoryRepository;
+import org.mccormax.newsletter.repository.SubscriberRepository;
 import org.mccormax.newsletter.service.NewsletterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

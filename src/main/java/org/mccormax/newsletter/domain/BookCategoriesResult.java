@@ -1,16 +1,14 @@
-package org.mccormax.newsletter;
+package org.mccormax.newsletter.domain;
 
 import org.springframework.data.neo4j.annotation.QueryResult;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
  * @author Max McCormick
  */
 @QueryResult
-public class BookMeta {
+public class BookCategoriesResult {
 
    Long id;
    String book;

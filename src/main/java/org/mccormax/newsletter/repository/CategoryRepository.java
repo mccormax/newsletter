@@ -1,5 +1,6 @@
-package org.mccormax.newsletter;
+package org.mccormax.newsletter.repository;
 
+import org.mccormax.newsletter.domain.Category;
 import org.springframework.data.neo4j.repository.GraphRepository;
 
 import java.util.List;

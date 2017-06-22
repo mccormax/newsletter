@@ -1,4 +1,4 @@
-package org.mccormax.newsletter;
+package org.mccormax.newsletter.domain;
 
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.Index;
@@ -16,10 +16,15 @@ public class Subscriber {
 
       @GraphId Long id;
 
-      @Index(unique=true, primary=true) private String email;
+      @Index(unique = true, primary = true)
+      String email;
 
       @Relationship(type = "SUBSCRIBES_TO")
       Collection<Category> categories;
+      private transient List<String> categoryCodes;
+
+      public Subscriber() {
+      }
 
       public List<String> getCategoryCodes() {
             return categoryCodes;
@@ -28,10 +33,6 @@ public class Subscriber {
       public void setCategoryCodes(List<String> categoryCodes) {
             this.categoryCodes = categoryCodes;
       }
-
-      private transient List<String> categoryCodes;
-
-      public Subscriber() { }
 
       public String getEmail() {
          return email;

@@ -1,6 +1,11 @@
 package org.mccormax.newsletter.service;
 
-import org.mccormax.newsletter.*;
+import org.mccormax.newsletter.domain.BookCategories;
+import org.mccormax.newsletter.domain.BookCategoriesResult;
+import org.mccormax.newsletter.domain.RecipientNotifications;
+import org.mccormax.newsletter.domain.SubscriberBooksResult;
+import org.mccormax.newsletter.repository.BookRepository;
+import org.mccormax.newsletter.repository.SubscriberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,20 +30,20 @@ public class NewsletterService {
 
       // get the meta data for all the books.  since this data will be repeated over and over
       // for different subscribers, it is retrieved just once and mapped.
-      Collection<BookMeta> books = bookRepository.getBookMeta();
+      Collection<BookCategoriesResult> books = bookRepository.getBookMeta();
 
       // map each book meta by the book id
       Map<Long, BookCategories> bookLookup = new HashMap<>();
-      for (BookMeta book : books) {
+      for (BookCategoriesResult book : books) {
          bookLookup.put(book.getId(), new BookCategories(book.getBook(), book.getCategoryPaths()));
       }
 
       // get the books related to each subscriber
-      Collection<SubscriberBooks> subscribers = subscriberRepository.getSubscriberBooks();
+      Collection<SubscriberBooksResult> subscribers = subscriberRepository.getSubscriberBooks();
 
       // generate the result list from the 'static' book list and the subscriptions
       List<RecipientNotifications> notifications = new ArrayList<>();
-      for (SubscriberBooks subscriber : subscribers) {
+      for (SubscriberBooksResult subscriber : subscribers) {
          RecipientNotifications notification = new RecipientNotifications(subscriber.getEmail());
          for (Long bookId : subscriber.getBooks()) {
             notification.addNotification(bookLookup.get(bookId));

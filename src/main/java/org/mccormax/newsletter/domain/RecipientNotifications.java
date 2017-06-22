@@ -1,4 +1,4 @@
-package org.mccormax.newsletter;
+package org.mccormax.newsletter.domain;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -8,7 +8,7 @@ import java.util.List;
  * @author Max McCormick
  */
 @QueryResult
-public class SubscriberBooks {
+public class SubscriberBooksResult {
 
    private String email;
 
