@@ -11,16 +11,5 @@ public class NewsletterApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(NewsletterApplication.class, args);
 	}
-/*
-	@Bean
-	public org.neo4j.ogm.config.Configuration getConfiguration() {
-		org.neo4j.ogm.config.Configuration config = new org.neo4j.ogm.config.Configuration();
-		config.driverConfiguration()
-				.setDriverClassName
-		("org.neo4j.ogm.drivers.embedded.driver.EmbeddedDriver")
-				.setURI("file:/Users/mccormax/Develop/newsletter/target/neo4j_graph.db");
-
-		return config;
-	} */
 
 }

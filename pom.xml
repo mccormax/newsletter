@@ -5,7 +5,7 @@
 
 	<groupId>org.mccormax</groupId>
 	<artifactId>newsletter</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.5-RELEASE</version>
 	<packaging>jar</packaging>
 
 	<name>newsletter</name>

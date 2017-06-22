@@ -1,0 +1,60 @@
+********************************************************************************
+*****                                                                      *****
+*****                        NEWSLETTER REST SERVICE                       *****
+*****                                                                      *****
+********************************************************************************
+
+This is a simple REST API application that manages user subscriptions to
+newsletters about new book releases.
+
+The REST API endpoint is at http://localhost:8080 and handles these resources:
+
+1. POST /categories
+2. POST /books
+3. POST /subscribers
+4. GET /newsletters
+
+*** To build and run you must have Java 8 installed ***
+
+Build and run tests
+-------------------
+
+./mvnw clean package
+
+Start service using the maven wrapper
+-------------------------------------
+
+./mvnw spring-boot:run
+
+Execute the jar file directly
+-----------------------------
+
+java -jar target/newsletter-0.5-RELEASE.jar
+
+
+IMPLEMENTATION NOTES
+====================
+
+* Neo4j - a graph database - is used for persistence since it suits the core
+  problem quite well.  If performance is an issue, a relational database
+  would be a practical, albeit not so elegant choice.  The database is
+  currently configured as "in-memory" (however it is quite easy to install
+  neo4j and using it is as simple as commenting out the embedded database
+  driver dependency in pom.xml).
+
+* Assumed that the list of books would in practice be small (eg. filtered by
+  date), however that the list of subscribers could be large, eg. hundreds of
+  thousands of subscribers.  Since there are only a few small fields, all this
+  data could be kept in memory on a typical server.
+
+* Choice was made to break the query (which could have been done as one big
+  graph query) into two parts to reduce traffic between the application and
+  database.  The first part gets the book data, which is actually small, but
+  gets heavily duplicated due to the number of subscribers. The second part is
+  the list of subscribers and references to their "suggested" books.
+
+
+Any questions?  Please contact max@codemonks.com.
+
+Thanks for your time!
+
