@@ -40,7 +40,8 @@ IMPLEMENTATION NOTES
   would be a practical, albeit not so elegant choice.  The database is
   currently configured as "in-memory" (however it is quite easy to install
   neo4j and using it is as simple as commenting out the embedded database
-  driver dependency in pom.xml).
+  driver dependency in pom.xml).  Note:  for simplicity, the database is
+  created anew with each restart.
 
 * Assumed that the list of books would in practice be small (eg. filtered by
   date), however that the list of subscribers could be large, eg. hundreds of
@@ -53,6 +54,8 @@ IMPLEMENTATION NOTES
   gets heavily duplicated due to the number of subscribers. The second part is
   the list of subscribers and references to their "suggested" books.
 
+* Please consider this a sketch rather than a finished work of art, given the
+  short amount of time involved!
 
 Any questions?  Please contact max@codemonks.com.
 
